@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "supermercados-mcp"
+version = "0.2.0"
+description = "Servidor MCP para buscar productos, comparar precios y llevar la lista de la compra en supermercados de España (Mercadona, Carrefour, Dia, Lidl, Aldi)"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+dependencies = [
+  "mcp>=2,<3",
+  "supermercapy==0.1.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3", "rich>=13"]
+
+[project.scripts]
+supermercados-mcp = "supermercados_mcp.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/supermercados_mcp"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
