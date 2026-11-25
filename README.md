@@ -21,6 +21,7 @@ Solo lee los catálogos públicos de cada web. No inicia sesión, no toca carrit
 - [Herramientas](#herramientas)
 - [Configuración](#configuración)
 - [Dónde se guardan los datos](#dónde-se-guardan-los-datos)
+- [Catálogo de recetas](#catálogo-de-recetas)
 - [Limitaciones](#limitaciones)
 - [Estructura del proyecto](#estructura-del-proyecto)
 - [Estado de las pruebas](#estado-de-las-pruebas)
@@ -72,7 +73,7 @@ Todavía no hay capturas de una conversación con el agente ni de la cesta compl
 
 **Pruebas**
 
-![96 pruebas superadas](docs/capturas/pruebas.svg)
+![104 pruebas superadas](docs/capturas/pruebas.svg)
 
 ## Instalación
 
@@ -218,6 +219,12 @@ En `~/.supermercados-mcp`, en dos ficheros JSON legibles a mano:
 
 `perfiles.json` puede contener alergias y dietas, que son datos de salud. No salen de tu equipo y no forman parte de este repositorio. Lo que sí sale hacia las webs de las tiendas son las búsquedas de productos y el código postal.
 
+## Catálogo de recetas
+
+Las recetas con ficha completa (ingredientes en crudo por ración, variantes, macros estimados, preparación, alérgenos y conservación) están en [`recetas/`](recetas/README.md), un fichero por receta. El índice y el formato para añadir una nueva están en `recetas/README.md`, y `tests/test_recetas.py` comprueba que cada ficha lo cumple.
+
+El servidor MCP todavía no lee este catálogo: lo usan las personas y el skill `chef-compras`, que abre el índice y solo las recetas que necesita.
+
 ## Limitaciones
 
 - **El código postal importa.** Mercadona no responde sin él, porque cada almacén tiene su surtido y sus precios. Carrefour sin punto de venta puede devolver productos sin precio. Si una tienda online no sirve a tu código postal, se usa su zona por defecto y la respuesta lleva un `aviso`.
@@ -242,7 +249,8 @@ scripts/
   preparar_pruebas.sh   descarga las respuestas grabadas para las pruebas sin red
   prueba_en_vivo.py     prueba de extremo a extremo contra las tiendas reales
   capturas.py           genera las capturas de este README
-tests/                  96 pruebas
+recetas/                catálogo de recetas, un fichero por receta, con su índice en README.md
+tests/                  104 pruebas
 ```
 
 No hay scrapers propios. El acceso a las tiendas lo hace [supermercapy](https://github.com/jtayped/supermercapy), fijada en la versión 0.1.0. El servidor usa el SDK oficial de MCP para Python, versión 2.
@@ -251,7 +259,7 @@ No hay scrapers propios. El acceso a las tiendas lo hace [supermercapy](https://
 
 Probado:
 
-- 96 pruebas sin red, en Python 3.11 y 3.13: lista, perfiles, menús, presupuesto, errores de uso y el recorrido completo de herramientas que sigue el agente.
+- 104 pruebas sin red, en Python 3.11 y 3.13: lista, perfiles, menús, presupuesto, errores de uso, el recorrido completo de herramientas que sigue el agente y el formato del catálogo de recetas.
 - Lectura de datos de las cinco tiendas con respuestas grabadas de sus webs reales, incluidos tienda caída y código postal sin cobertura.
 - Arranque real del servidor por stdio y por HTTP, y que la memoria se conserva al reiniciarlo.
 
